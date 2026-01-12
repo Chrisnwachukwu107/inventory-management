@@ -1,5 +1,6 @@
-import { SignIn } from "@stackframe/stack";
+
 import Link from "next/link";
+import { SignIn } from "@stackframe/stack";
 
 export default function SignInPage() {
   return (
@@ -10,4 +11,4 @@ export default function SignInPage() {
       </div>
     </div>
   );
-}
+};
