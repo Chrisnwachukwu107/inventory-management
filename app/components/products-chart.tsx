@@ -10,12 +10,16 @@ import {
   YAxis,
 } from "recharts";
 
-interface ChartData {
+type ChartData = {
   week: string;
   products: number;
+};
+
+interface ProductChartProps {
+  data: ChartData[];
 }
 
-export default function ProductChart({ data }: { data: ChartData }) {
+export default function ProductChart({ data }: ProductChartProps) {
   return (
     <div className="h-48 w-full">
       <ResponsiveContainer width="100%" height="100%">
