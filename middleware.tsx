@@ -1,33 +1,28 @@
 import { NextRequest, NextResponse } from "next/server";
 import { stackServerApp } from "./stack/server";
 
-export async function getCurrentUser() {
-  const user = await stackServerApp.getUser();
-
-  return (user);
-};
-
 export async function middleware(request: NextRequest) {
-  const user = await getCurrentUser();
+  const user = await stackServerApp.getUser();
   const { pathname } = request.nextUrl;
 
-  const isProtectedRoute =
-    pathname === "/add-product" ||
-    pathname === "/dashboard" ||
-    pathname === "/inventory" ||
-    pathname === "/settings";
+  const isProtectedRoute = [
+    "/dashboard",
+    "/add-product",
+    "/inventory",
+    "/settings",
+  ].some((route) => pathname.startsWith(route));
 
   const isAuthRoute =
     pathname.startsWith("/handler") ||
     pathname === "/sign-in" ||
     pathname === "/sign-up";
 
-  // Signed-in users should not see auth pages
-  if (user && isAuthRoute) {
+  // ✅ Signed-in users should never see auth pages OR root
+  if (user && (isAuthRoute || pathname === "/")) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
-  // Signed-out users should not see protected pages
+  // 🚫 Signed-out users cannot see protected pages
   if (!user && isProtectedRoute) {
     return NextResponse.redirect(new URL("/sign-in", request.url));
   }
@@ -37,11 +32,12 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
+    "/",
     "/handler/:path*",
     "/sign-in",
     "/sign-up",
+    "/dashboard/:path*",
     "/add-product",
-    "/dashboard",
     "/inventory",
     "/settings",
   ],
