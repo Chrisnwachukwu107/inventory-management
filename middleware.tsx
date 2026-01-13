@@ -4,8 +4,8 @@ import { stackServerApp } from "./stack/server";
 export async function getCurrentUser() {
   const user = await stackServerApp.getUser();
 
-  return user;
-}
+  return (user);
+};
 
 export async function middleware(request: NextRequest) {
   const user = await getCurrentUser();
@@ -20,12 +20,12 @@ export async function middleware(request: NextRequest) {
   ].some((route) => pathname.startsWith(route));
 
   const isAuthRoute = [
+    "/",
     "/handler/sign-in",
     "/handler/sign-up",
-    "/",
-    "sign-in",
-    "sign-up",
-  ].some((route) => pathname.startsWith(route));
+    "/sign-in",
+    "/sign-up",
+  ].some((route) => pathname === route);
 
   // Signed-in users should not see auth pages
   if (user && isAuthRoute) {
