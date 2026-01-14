@@ -3,6 +3,7 @@ import SideBar from "../components/sidebar";
 import { getCurrentUser } from "@/lib/auth";
 import { TrendingUp } from "lucide-react";
 import ProductChart from "../components/products-chart";
+import DashboardLayout from "../components/DashboardLayout";
 
 export default async function DashboardPage() {
   const user = await getCurrentUser();
@@ -75,6 +76,7 @@ export default async function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      
       <SideBar currentPath="/dashboard" />
       <main className="ml-64 p-8">
         {/* Header */}

@@ -3,6 +3,7 @@ import SideBar from "../components/sidebar";
 import { getCurrentUser } from "@/lib/auth";
 import { deleteProduct } from "@/lib/actions/products";
 import Pagination from "../components/pagination";
+import Link from "next/link";
 
 export default async function InventoryPage({
   searchParams,
@@ -26,6 +27,10 @@ export default async function InventoryPage({
     where,
   });
 
+  const totalProductsCount = await prisma.product.count({
+    where: { userId },
+  });
+
   const [totalCount, items] = await Promise.all([
     prisma.product.count({ where }),
     prisma.product.findMany({
@@ -37,6 +42,31 @@ export default async function InventoryPage({
   ]);
 
   const totalPages = Math.max(1, Math.ceil(totalCount / pageSize));
+
+  if (totalProductsCount === 0) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <SideBar currentPath="/inventory" />
+        <main className="ml-64 p-8">
+          <div className="flex flex-col items-center justify-center h-[60vh] text-center">
+            <h2 className="text-2xl font-semibold text-gray-900 mb-2">
+              No products added yet
+            </h2>
+            <p className="text-gray-500 mb-6">
+              Start by adding your first product to your inventory.
+            </p>
+
+            <Link
+              href="/add-product"
+              className="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
+            >
+              Add Product
+            </Link>
+          </div>
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -73,6 +103,20 @@ export default async function InventoryPage({
           {/* Products Table */}
           <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
             <table className="w-full">
+              {/* Invalid table search query */}
+              {items.length === 0 ? (
+                <tbody>
+                  <tr>
+                    <td
+                      colSpan={6}
+                      className="px-6 py-12 text-center text-gray-500"
+                    >
+                      No products match your search.
+                    </td>
+                  </tr>
+                </tbody>
+              ): ""}
+
               <thead className="bg-gray-50">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">

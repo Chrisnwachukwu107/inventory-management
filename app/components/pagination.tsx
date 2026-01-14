@@ -18,7 +18,7 @@ export default function Pagination({
 
   const getPageUrl = (page: number) => {
     const params = new URLSearchParams({ ...searchParams, page: String(page) });
-    return (`${baseUrl}?${params.toString()}`);
+    return `${baseUrl}?${params.toString()}`;
   };
 
   const getVisiblePages = () => {
@@ -55,21 +55,31 @@ export default function Pagination({
 
   return (
     <nav className="flex items-center justify-center gap-1">
-      <Link
-        href={getPageUrl(currentPage - 1)}
-        className={`flex items-center px-3 py-2 text-sm font-medium rounded-lg ${currentPage <= 1 ? "text-gray-400 cursor-not-allowed bg-gray-100" : "text-gray-700 hover:bg-gray-100 bg-white border border-gray-300"}`}
-        aria-disabled={currentPage <= 1}
-      >
-        <ChevronLeft /> Previous
-      </Link>
+      {currentPage <= 1 ? (
+        <span
+          className="flex items-center px-3 py-2 text-sm font-medium rounded-lg text-gray-400 cursor-not-allowed bg-gray-100"
+          aria-disabled="true"
+        >
+          <ChevronLeft /> Previous
+        </span>
+      ) : (
+        <Link
+          href={getPageUrl(currentPage - 1)}
+          className="flex items-center px-3 py-2 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100 bg-white border border-gray-300"
+        >
+          <ChevronLeft /> Previous
+        </Link>
+      )}
 
       {visiblePages.map((page, key) => {
         if (page === "...") {
           return (
-            <span key={key} className="px-3 py-2 text-sm text-gray-500">...</span>
+            <span key={key} className="px-3 py-2 text-sm text-gray-500">
+              ...
+            </span>
           );
-        };
-    
+        }
+
         const pageNumber = page as number;
         const isCurrentPage = pageNumber === currentPage;
 
@@ -83,13 +93,21 @@ export default function Pagination({
           </Link>
         );
       })}
-      <Link
-        href={getPageUrl(currentPage + 1)}
-        className={`flex items-center px-3 py-2 text-sm font-medium rounded-lg ${currentPage >= totalPages ? "text-gray-400 cursor-not-allowed bg-gray-100" : "text-gray-700 hover:bg-gray-100 bg-white border border-gray-300"}`}
-        aria-disabled={currentPage >= totalPages}
-      >
-        <ChevronRight /> Next
-      </Link>
+      {currentPage >= totalPages ? (
+        <span
+          className="flex items-center px-3 py-2 text-sm font-medium rounded-lg text-gray-400 cursor-not-allowed bg-gray-100"
+          aria-disabled="true"
+        >
+          <ChevronRight /> Next
+        </span>
+      ) : (
+        <Link
+          href={getPageUrl(currentPage + 1)}
+          className="flex items-center px-3 py-2 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100 bg-white border border-gray-300"
+        >
+          <ChevronRight /> Next
+        </Link>
+      )}
     </nav>
   );
 }
