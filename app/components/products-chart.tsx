@@ -21,15 +21,15 @@ interface ProductChartProps {
 }
 
 export default function ProductChart({ data }: ProductChartProps) {
-  const [ weeksToShow, setWeeksToShow ] = useState(11);
+  const [ weeksToShow, setWeeksToShow ] = useState(12);
   
   useEffect(() => {
     const updateWeeks = () => {
       if (window.innerWidth < 361) {
-        setWeeksToShow(5);
+        setWeeksToShow(6);
       }
       if (window.innerWidth < 421) {
-        setWeeksToShow(7);
+        setWeeksToShow(8);
       }
     };
 
