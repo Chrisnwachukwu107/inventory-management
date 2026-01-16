@@ -1,5 +1,4 @@
 import prisma from "@/lib/prisma";
-import SideBar from "../components/sidebar";
 import { getCurrentUser } from "@/lib/auth";
 import { TrendingUp } from "lucide-react";
 import ProductChart from "../components/products-chart";

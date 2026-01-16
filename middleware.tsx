@@ -13,9 +13,9 @@ export async function middleware(request: NextRequest) {
 
   const isProtectedRoute = [
     // "/dashboard",
-    "/add-product",
-    "/inventory",
-    "/settings",
+    // "/add-product",
+    // "/inventory",
+    // "/settings",
   ].some((route) => pathname.startsWith(route));
 
   const isAuthRoute = [
