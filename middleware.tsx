@@ -10,10 +10,9 @@ export async function getCurrentUser() {
 export async function middleware(request: NextRequest) {
   const user = await getCurrentUser();
   const { pathname } = request.nextUrl;
-  console.log(pathname);
 
   const isProtectedRoute = [
-    "/dashboard",
+    // "/dashboard",
     "/add-product",
     "/inventory",
     "/settings",
@@ -34,7 +33,7 @@ export async function middleware(request: NextRequest) {
 
   // Signed-out users should not see protected pages
   if (!user && isProtectedRoute) {
-    return NextResponse.redirect(new URL("/sign-in", request.url));
+    return NextResponse.redirect(new URL("/handler/sign-in", request.url));
   }
 
   return NextResponse.next();

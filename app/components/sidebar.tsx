@@ -15,7 +15,7 @@ export default function SideBar({
   ];
 
   return (
-    <div className="fixed left-0 top-0 bg-gray-900 text-white w-64 min-h-screen p-6 z-10">
+    <div className="h-full bg-gray-900 text-white w-64 p-6">
       <div className="mb-8">
         <div className="flex items-center space-x-2 mb-4">
           <BarChart3 className="w-7 h-7 bg-purple-600 border-4 border-transparent rounded-sm" />

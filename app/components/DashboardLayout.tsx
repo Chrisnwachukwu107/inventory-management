@@ -14,14 +14,15 @@ export default function DashboardLayout({
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
+    <div className="h-dvh bg-gray-50 flex">
       {/* Sidebar */}
       <div
         className={`
-          fixed inset-y-0 left-0 z-40 w-64 bg-white border-r border-gray-200
+          fixed inset-y-0 left-0 w-64 z-40
+          bg-white border-r border-gray-200
           transform transition-transform duration-300
           ${open ? "translate-x-0" : "-translate-x-full"}
-          lg:translate-x-0 lg:static
+          lg:translate-x-0
         `}
       >
         <SideBar currentPath={currentPath} />
@@ -45,8 +46,6 @@ export default function DashboardLayout({
           >
             {open ? <X /> : <Menu />}
           </button>
-
-          <h1 className="font-semibold text-gray-900">Dashboard</h1>
         </header>
 
         <main className="p-4 sm:p-6 lg:p-8">{children}</main>

@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import {
   Area,
   AreaChart,
@@ -20,11 +21,31 @@ interface ProductChartProps {
 }
 
 export default function ProductChart({ data }: ProductChartProps) {
+  const [ weeksToShow, setWeeksToShow ] = useState(11);
+  
+  useEffect(() => {
+    const updateWeeks = () => {
+      if (window.innerWidth < 361) {
+        setWeeksToShow(5);
+      }
+      if (window.innerWidth < 421) {
+        setWeeksToShow(7);
+      }
+    };
+
+    updateWeeks(); // run on mount
+    window.addEventListener("resize", updateWeeks);
+
+    return () => window.removeEventListener("resize", updateWeeks);
+  }, []);
+
+  const chartData = data.slice(-weeksToShow);
+
   return (
     <div className="h-48 w-full">
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart
-          data={data}
+          data={chartData}
           margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
         >
           <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
