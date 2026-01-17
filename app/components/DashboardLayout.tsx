@@ -14,7 +14,7 @@ export default function DashboardLayout({
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="h-dvh bg-gray-50 flex">
+    <div className="h-dvh bg-gray-50 flex ">
       {/* Sidebar */}
       <div
         className={`
@@ -48,7 +48,7 @@ export default function DashboardLayout({
           </button>
         </header>
 
-        <main className="p-4 sm:p-6 lg:p-8">{children}</main>
+        <main className="p-3 sm:p-6 lg:p-8 max-w-screen">{children}</main>
       </div>
     </div>
   );

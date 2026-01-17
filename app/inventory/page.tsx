@@ -81,7 +81,7 @@ export default async function InventoryPage({
     <div className="space-y-4 sm:space-y-6">
       {/* Search */}
       <div className="bg-white rounded-lg border border-gray-200 p-4 sm:p-6">
-        <form className="grid sm:flex gap-2" action="/inventory" method="GET">
+        <form className="grid sm:flex gap-2 items-center" action="/inventory" method="GET">
           <input
             name="q"
             placeholder="Search products..."
