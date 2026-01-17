@@ -37,7 +37,7 @@ export default function DashboardLayout({
       )}
 
       {/* Main content */}
-      <div className="flex-1 lg:ml-64">
+      <div className="flex-1 lg:ml-64 w-full overflow-x-hidden">
         {/* Top bar */}
         <header className="sticky top-0 z-20 bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between lg:hidden">
           <button
@@ -48,7 +48,7 @@ export default function DashboardLayout({
           </button>
         </header>
 
-        <main className="p-3 sm:p-6 lg:p-8 max-w-screen">{children}</main>
+        <main className="p-2 sm:p-6 lg:p-8 ">{children}</main>
       </div>
     </div>
   );

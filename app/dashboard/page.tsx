@@ -76,7 +76,7 @@ export default async function DashboardPage() {
   return (
   <DashboardLayout currentPath="/dashboard">
     {/* Header */}
-    <div className="mb-6 sm:mb-8 overflow-y-auto">
+    <div className="mb-6 ml-4 sm:ml-0 sm:mb-8 overflow-y-auto">
       <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">
         Dashboard
       </h1>

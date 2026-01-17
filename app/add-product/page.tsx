@@ -5,7 +5,7 @@ import { createProduct } from "@/lib/actions/products";
 export default async function AddProductPage() {
   return (
     <DashboardLayout currentPath="/add-product">
-      <div className="mb-8 ml-4">
+      <div className="mb-8 ml-4 sm:ml-0">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-semibold text-gray-900">

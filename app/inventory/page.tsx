@@ -66,8 +66,8 @@ export default async function InventoryPage({
 
   return (
     <DashboardLayout currentPath="/inventory">
-    <div className="mb-8">
-      <div className="flex items-center justify-between">
+    <div className="mb-8 ml-4 sm:ml-0">
+      <div className="flex items-center justify-between ml-4">
         <div>
           <h1 className="text-2xl font-semibold text-gray-900">
             Inventory
