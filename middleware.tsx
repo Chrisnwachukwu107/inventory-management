@@ -12,10 +12,10 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   const isProtectedRoute = [
-    "/dashboard",
-    "/add-product",
-    "/inventory",
-    "/settings",
+    // "/dashboard",
+    // "/add-product",
+    // "/inventory",
+    // "/settings",
   ].some((route) => pathname.startsWith(route));
 
   const isAuthRoute = [

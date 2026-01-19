@@ -1,3 +1,7 @@
+import { Suspense } from "react";
+import InventoryTable from "./InventoryTable";
+import InventoryTableSkeleton from "./InventoryTableSkeleton";
+
 import prisma from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/auth";
 import { deleteProduct } from "@/lib/actions/products";
@@ -95,81 +99,20 @@ export default async function InventoryPage({
       {/* Products Table */}
       <div className="bg-white rounded-lg border border-gray-200">
         <div className="max-h-[60vh] overflow-y-auto">
-          <table className="w-full">
-            {/* Invalid table search query */}
-            {items.length === 0 ? (
-              <tbody>
-                <tr>
-                  <td
-                    colSpan={6}
-                    className="px-6 py-12 text-center text-gray-500"
-                  >
-                    No products match your search.
-                  </td>
-                </tr>
-              </tbody>
-            ): ""}
-            <thead className="bg-gray-50 sticky top-0 z-10">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                  Name
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                  Sku
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                  Price
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                  Quantity
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                  Low Stock At
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                  Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {items.map((product, key) => {
-                return (
-                  <tr key={key} className="hover:bg-gray-50">
-                    <td className="px-3 py-2 sm:px-6 sm:py-4 text-sm text-gray-500">
-                      {product.name}
-                    </td>
-                    <td className="px-3 py-2 sm:px-6 sm:py-4 text-sm text-gray-500">
-                      {product.sku || "-"}
-                    </td>
-                    <td className="px-3 py-2 sm:px-6 sm:py-4 text-sm text-gray-500">
-                      {Number(product.price).toFixed(2)}
-                    </td>
-                    <td className="px-3 py-2 sm:px-6 sm:py-4 text-sm text-gray-500">
-                      {product.quantity}
-                    </td>
-                    <td className="px-3 py-2 sm:px-6 sm:py-4 text-sm text-gray-500">
-                      {product.lowStockAt || "-"}
-                    </td>
-                    <td className="px-3 py-2 sm:px-6 sm:py-4 text-sm text-gray-500">
-                      <form
-                        action={async (formData: FormData) => {
-                          "use server";
-                          await deleteProduct(formData);
-                        }}
-                      >
-                        <input type="hidden" name="id" value={product.id} />
-                        <button className="text-red-600 hover:text-red-900">
-                          Delete
-                        </button>
-                      </form>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+          <Suspense
+            key={`${q}-${page}`}
+            fallback={<InventoryTableSkeleton />}
+          >
+            <InventoryTable
+              userId={userId}
+              q={q}
+              page={page}
+              pageSize={pageSize}
+            />
+          </Suspense>
         </div>
       </div>
+
       {totalPages > 1 && (
         <div className="bg-white rounded-lg border border-gray-200 p-6">
           <Pagination
