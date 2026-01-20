@@ -43,6 +43,12 @@ export default async function DashboardPage() {
   const outOfStockPercentage =
     totalProducts > 0 ? Math.round((outOfStockCount / totalProducts) * 100) : 0;
 
+  const RADIUS = 70;
+  const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
+
+  const inStockLength = (inStockPercentage / 100) * CIRCUMFERENCE;
+  const lowStockLength = (lowStockPercentage / 100) * CIRCUMFERENCE;
+
   const now = new Date();
   const weeklyProductsData = [];
 
@@ -196,20 +202,51 @@ export default async function DashboardPage() {
         {/* Efficiency */}
         <div className="bg-white rounded-lg border border-gray-200 p-6">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-lg font-semibold text-gray-900">
-              Efficiency
-            </h2>
+            <h2 className="text-lg font-semibold text-gray-900">Efficiency</h2>
           </div>
+
           <div className="flex items-center justify-center">
             <div className="relative w-48 h-48">
-              <div className="absolute inset-0 rounded-full border-8 border-gray-200"></div>
-              <div
-                className="absolute inset-0 rounded-full border-8 border-purple-600"
-                style={{
-                  clipPath:
-                    "polygon(50% 50%, 50% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 50%)",
-                }}
-              />
+              <svg className="w-full h-full -rotate-90">
+                {/* Background */}
+                <circle
+                  cx="50%"
+                  cy="50%"
+                  r={RADIUS}
+                  stroke="#e5e7eb"
+                  strokeWidth="12"
+                  fill="none"
+                />
+
+                {/* In Stock */}
+                <circle
+                  cx="50%"
+                  cy="50%"
+                  r={RADIUS}
+                  stroke="#7c3aed" // bg-purple-600
+                  strokeWidth="12"
+                  fill="none"
+                  strokeDasharray={`${inStockLength} ${CIRCUMFERENCE}`}
+                  strokeDashoffset={0}
+                  strokeLinecap="round"
+                />
+
+                {/* Low Stock */}
+                <circle
+                  cx="50%"
+                  cy="50%"
+                  r={RADIUS}
+                  stroke="#a855f7" // bg-purple-500
+                  strokeWidth="12"
+                  fill="none"
+                  strokeDasharray={`${lowStockLength} ${CIRCUMFERENCE}`}
+                  strokeDashoffset={-inStockLength}
+                  strokeLinecap="round"
+                />
+              </svg>
+
+
+              {/* Center text */}
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="text-center">
                   <div className="text-2xl font-bold text-gray-900">
@@ -220,27 +257,24 @@ export default async function DashboardPage() {
               </div>
             </div>
           </div>
+
+          {/* Legend */}
           <div className="mt-6 space-y-2">
-            <div className="flex items-center justify-between text-sm text-gray-600">
-              <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 rounded-full bg-purple-600" />
-                <span>In Stock ({inStockPercentage}%)</span>
-              </div>
+            <div className="flex items-center space-x-2 text-sm text-gray-600">
+              <div className="w-3 h-3 rounded-full bg-purple-600" />
+              <span>In Stock ({inStockPercentage}%)</span>
             </div>
-            <div className="flex items-center justify-between text-sm text-gray-600">
-              <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 rounded-full bg-purple-600" />
-                <span>Low Stock ({lowStockPercentage}%)</span>
-              </div>
+            <div className="flex items-center space-x-2 text-sm text-gray-600">
+              <div className="w-3 h-3 rounded-full bg-purple-500" />
+              <span>Low Stock ({lowStockPercentage}%)</span>
             </div>
-            <div className="flex items-center justify-between text-sm text-gray-600">
-              <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 rounded-full bg-gray-200" />
-                <span>Out of Stock ({outOfStockPercentage}%)</span>
-              </div>
+            <div className="flex items-center space-x-2 text-sm text-gray-600">
+              <div className="w-3 h-3 rounded-full bg-gray-200" />
+              <span>Out of Stock ({outOfStockPercentage}%)</span>
             </div>
           </div>
         </div>
+
       </div>
   </DashboardLayout>
 );

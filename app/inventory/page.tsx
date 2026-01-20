@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import InventoryTable from "./InventoryTable";
 import InventoryTableSkeleton from "./InventoryTableSkeleton";
+import SearchForm from "../components/searchForm" ;
 
 import prisma from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/auth";
@@ -84,17 +85,9 @@ export default async function InventoryPage({
     <div className="space-y-4 sm:space-y-6">
       {/* Search */}
       <div className="bg-white rounded-lg border border-gray-200 p-4 sm:p-6">
-        <form className="grid sm:flex gap-2 items-center" action="/inventory" method="GET">
-          <input
-            name="q"
-            placeholder="Search products..."
-            className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:border-transparent"
-          />
-          <button className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700">
-            Search
-          </button>
-        </form>
+        <SearchForm />
       </div>
+
       {/* Products Table */}
       <div className="bg-white rounded-lg border border-gray-200">
         <div className="max-h-[60vh] overflow-y-auto">
