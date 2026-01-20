@@ -4,7 +4,6 @@ import InventoryTableSkeleton from "./InventoryTableSkeleton";
 
 import prisma from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/auth";
-import { deleteProduct } from "@/lib/actions/products";
 import Pagination from "../components/pagination";
 import Link from "next/link";
 import DashboardLayout from "../components/DashboardLayout";

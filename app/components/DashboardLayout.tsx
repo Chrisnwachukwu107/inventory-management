@@ -48,7 +48,7 @@ export default function DashboardLayout({
           </button>
         </header>
 
-        <main className="p-2 sm:p-6 lg:p-8 w-full">{children}</main>
+        <main className="p-2 sm:p-6 lg:p-8 w-full inventory">{children}</main>
       </div>
     </div>
   );

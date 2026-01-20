@@ -1,5 +1,9 @@
+"use client";
+
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
+import { useEffect } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
 
 interface PaginationProps {
   currentPage: number;
@@ -15,6 +19,16 @@ export default function Pagination({
   searchParams,
 }: PaginationProps) {
   if (totalPages <= 1) return null;
+
+  const pathname = usePathname();
+  const params = useSearchParams();
+
+  // REMOVE blur after navigation completes
+  useEffect(() => {
+    document.body.classList.remove("page-loading-blur");
+  }, [pathname, params]);
+
+  const showLoadingBlur = () => document.body.classList.add("page-loading-blur");
 
   const getPageUrl = (page: number) => {
     const params = new URLSearchParams({ ...searchParams, page: String(page) });
@@ -56,15 +70,13 @@ export default function Pagination({
   return (
     <nav className="flex items-center justify-center gap-1">
       {currentPage <= 1 ? (
-        <span
-          className="flex items-center px-3 py-2 text-sm font-medium rounded-lg text-gray-400 cursor-not-allowed bg-gray-100"
-          aria-disabled="true"
-        >
+        <span className="flex items-center px-3 py-2 text-sm font-medium rounded-lg text-gray-400 cursor-not-allowed bg-gray-100">
           <ChevronLeft /> Previous
         </span>
       ) : (
         <Link
           href={getPageUrl(currentPage - 1)}
+          onClick={showLoadingBlur}
           className="flex items-center px-3 py-2 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100 bg-white border border-gray-300"
         >
           <ChevronLeft /> Previous
@@ -87,22 +99,26 @@ export default function Pagination({
           <Link
             key={key}
             href={getPageUrl(pageNumber)}
-            className={`px-3 py-2 text-sm font-medium rounded-lg ${isCurrentPage ? "bg-purple-600 text-white" : "text-gray-700 hover:bg-gray-100 bg-white border border-gray-300"}`}
+            onClick={!isCurrentPage ? showLoadingBlur : undefined}
+            className={`px-3 py-2 text-sm font-medium rounded-lg ${
+              isCurrentPage
+                ? "bg-purple-600 text-white"
+                : "text-gray-700 hover:bg-gray-100 bg-white border border-gray-300"
+            }`}
           >
             {pageNumber}
           </Link>
         );
       })}
+
       {currentPage >= totalPages ? (
-        <span
-          className="flex items-center px-3 py-2 text-sm font-medium rounded-lg text-gray-400 cursor-not-allowed bg-gray-100"
-          aria-disabled="true"
-        >
+        <span className="flex items-center px-3 py-2 text-sm font-medium rounded-lg text-gray-400 cursor-not-allowed bg-gray-100">
           <ChevronRight /> Next
         </span>
       ) : (
         <Link
           href={getPageUrl(currentPage + 1)}
+          onClick={showLoadingBlur}
           className="flex items-center px-3 py-2 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100 bg-white border border-gray-300"
         >
           <ChevronRight /> Next

@@ -31,3 +31,17 @@ body {
 .animate-scale {
   animation: scalePulse 1.5s ease-in-out infinite;
 }
+
+.page-loading-blur::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(6px);
+  z-index: 9999;
+}
+
+.page-loading-blur::after {
+  content: "";
+  opacity: 0;
+}
